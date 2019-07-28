@@ -13,6 +13,10 @@ globals:
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
+overrides:
+  - files: __tests__/**
+    env:
+      jest: true
 rules:
   '@typescript-eslint/prefer-interface': 0
   '@typescript-eslint/explicit-function-return-type':
