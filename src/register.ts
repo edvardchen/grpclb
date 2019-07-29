@@ -1,11 +1,14 @@
 import { Etcd3, Lease } from 'etcd3';
 import Debug from 'debug';
+import { Server } from 'grpc';
 
 const debug = Debug('grpclb:server');
 
 type Str = string | (() => string);
 
 type RegisterOptions = {
+  server?: Server;
+
   /** etcd lease ttl in seconds */
   ttl?: number;
 
@@ -17,6 +20,7 @@ type RegisterOptions = {
 };
 
 export default async function register({
+  server,
   ttl = 10, // 10 seconds,
   etcdKV: { key: _key, value: _value = '' },
   etcdHosts = process.env.ETCD_HOSTS,
@@ -48,7 +52,23 @@ export default async function register({
 
   await grantLease();
 
-  return () => {
-    lease.revoke();
-  };
+  function revoke(): Promise<void> {
+    return lease.revoke();
+  }
+
+  if (server) {
+    const old = server.tryShutdown;
+    server.tryShutdown = callback => {
+      revoke();
+      old.call(server, callback);
+    };
+
+    const original = server.forceShutdown;
+    server.forceShutdown = () => {
+      revoke();
+      original.call(server);
+    };
+  }
+
+  return revoke;
 }

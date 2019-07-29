@@ -29,25 +29,23 @@ describe('grpc proxy', () => {
   });
 
   let proxy: GrpcObject;
-  let revokers: (() => void)[];
+  let revokers: Server[];
   beforeAll(async () => {
     revokers = await Promise.all(
-      [50051, 50052].map(port => {
+      [50051, 50052].map(async port => {
         // const port = Math.floor(Math.random() * 1e4);
         // start server
         const server = startGreeterServer(port) as Server;
 
-        return register({
+        await register({
+          server,
           etcdKV: {
             key: `test-services:helloworld.Greeter:localhost:${port}`,
           },
           etcdHosts: hosts,
-        }).then(revoke => {
-          return () => {
-            server.forceShutdown();
-            revoke();
-          };
         });
+
+        return server;
       })
     );
 
@@ -59,7 +57,7 @@ describe('grpc proxy', () => {
   });
 
   afterAll(() => {
-    revokers.map(item => item());
+    revokers.map(item => item.forceShutdown());
   });
 
   it('round=robin', async () => {
@@ -74,7 +72,7 @@ describe('grpc proxy', () => {
 
     // revoke
     const revoker = revokers.shift();
-    revoker && revoker();
+    revoker && revoker.forceShutdown();
     await sleep(200);
     const fourth = proxy.Greeter.getChannel().getTarget();
     const fifth = proxy.Greeter.getChannel().getTarget();
