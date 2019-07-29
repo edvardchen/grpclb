@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "commonjs",
     "lib": ["es2018", "dom"],
+    "outDir": "./lib",
     "sourceMap": true,
     "strict": true,
     "noUnusedLocals": true,
@@ -17,5 +18,6 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
-  }
+  },
+  "include": ["src"]
 }
