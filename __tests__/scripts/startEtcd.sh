@@ -7,8 +7,6 @@ REGISTRY=quay.io/coreos/etcd
 # available from v3.2.5
 # REGISTRY=gcr.io/etcd-development/etcd
 
-docker rm /etcd
-
 docker run \
   -p 2379:2379 \
   -p 2380:2380 \
