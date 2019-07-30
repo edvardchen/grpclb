@@ -52,7 +52,7 @@ describe('grpc proxy', () => {
     proxy = await createGrpcProxy({
       etcdHosts: hosts,
       target: pkgDef.helloworld,
-      parse: parseKV,
+      parseKV,
     });
   });
 

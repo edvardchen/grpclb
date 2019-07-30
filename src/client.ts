@@ -21,10 +21,10 @@ let resolver: EtcdResolver;
 
 export default async function createGrpcProxy(options: {
   etcdHosts?: IOptions['hosts'];
-  parse: KVParser;
+  parseKV: KVParser;
   target: GrpcObject;
 }): Promise<GrpcObject> {
-  const { etcdHosts, target, parse } = options;
+  const { etcdHosts, target, parseKV } = options;
 
   if (!resolver) {
     const { ETCD_NAMESPACE, ETCD_HOSTS } = process.env;
@@ -33,7 +33,7 @@ export default async function createGrpcProxy(options: {
 
     resolver = new EtcdResolver(
       etcdHosts || ETCD_HOSTS || '',
-      parse,
+      parseKV,
       ETCD_NAMESPACE
     );
 
