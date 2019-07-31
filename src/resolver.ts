@@ -18,7 +18,7 @@ type Store = {
 };
 
 export interface KVParser {
-  (key: string, value?: string): ServantNode;
+  (key: string, value?: string): ServantNode | undefined;
 }
 
 export class EtcdResolver {
@@ -79,7 +79,10 @@ export class EtcdResolver {
   }
 
   onAdd(key: string, value: string): void {
-    const { service, address } = this.parseEtcdKV(key, value);
+    const node = this.parseEtcdKV(key, value);
+    if (!node) return;
+
+    const { service, address } = node;
 
     this.store[service] = this.store[service] || { items: [], currIndex: 0 };
 
@@ -95,7 +98,10 @@ export class EtcdResolver {
   }
 
   onDel(key: string): void {
-    const { address, service } = this.parseEtcdKV(key);
+    const node = this.parseEtcdKV(key);
+    if (!node) return;
+
+    const { address, service } = node;
 
     this.store[service] &&
       removeFromArray(
@@ -104,7 +110,7 @@ export class EtcdResolver {
       );
   }
 
-  parseEtcdKV(_key: string, value?: string): ServantNode {
+  parseEtcdKV(_key: string, value?: string): ServantNode | undefined {
     const key = _.trimStart(_key, this.prefix);
     return this.parse(key, value);
   }
@@ -117,7 +123,9 @@ export class EtcdResolver {
     const nodeSet = _.transform<string, Store>(
       nodes,
       (result, value, _key) => {
-        const { service, address } = this.parseEtcdKV(_key, value);
+        const node = this.parseEtcdKV(_key, value);
+        if (!node) return;
+        const { service, address } = node;
         result[service] = result[service] || { items: [], currIndex: 0 };
         result[service].items.push({ service, address });
       },
