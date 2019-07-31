@@ -5,6 +5,7 @@
     "lib": ["es2018", "dom"],
     "outDir": "./lib",
     "sourceMap": true,
+    "declaration": true,
     "strict": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,
