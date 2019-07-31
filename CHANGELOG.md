@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/edvardchen/grpclb/compare/v1.1.0...v1.1.1) (2019-07-31)
+
+
+### Build System
+
+* generator declaration file ([594b845](https://github.com/edvardchen/grpclb/commit/594b845))
+
+
+
 ## 1.1.0 (2019-07-30)
 
 
