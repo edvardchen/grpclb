@@ -1,6 +1,6 @@
 import path from 'path';
 import { GrpcObject, Client, credentials } from 'grpc';
-import isServiceClient from './utils/isServiceClient';
+import isServiceClient from '../utils/isServiceClient';
 import { EtcdResolver, KVParser } from './resolver';
 import Debug from 'debug';
 import { IOptions } from 'etcd3';

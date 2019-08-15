@@ -4,7 +4,7 @@ import { Etcd3 } from 'etcd3';
 import { register } from '../src';
 import { createEtcdClient, hosts, parseKV } from './helper/etcd';
 import sleep from './helper/sleep';
-import { EtcdResolver } from '../src/resolver';
+import { EtcdResolver } from '../src/client/resolver';
 
 describe('grpclb', () => {
   let client: Etcd3;

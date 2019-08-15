@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Debug from 'debug';
 import { Etcd3, Watcher, IOptions } from 'etcd3';
-import removeFromArray from './utils/removeFromArray';
+import removeFromArray from '../utils/removeFromArray';
 
 const debug = Debug('grpclb:resolver');
 
