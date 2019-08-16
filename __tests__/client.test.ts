@@ -6,8 +6,9 @@ import startGreeterServer from './fixtures/helloworld/greeter_server';
 import { register, createGrpcProxy } from '../src';
 import { hosts, parseKV } from './helper/etcd';
 import sleep from './helper/sleep';
+import { destroyGlobalPool } from '../src/client/globalClientPool';
 
-describe('grpc proxy', () => {
+describe('client dynamic - grpc proxy', () => {
   let pkgDef: GrpcObject;
 
   beforeAll(() => {
@@ -24,11 +25,11 @@ describe('grpc proxy', () => {
     process.env.ETCD_NAMESPACE = 'test-services:';
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     delete process.env.ETCD_NAMESPACE;
+    await destroyGlobalPool();
   });
 
-  let proxy: GrpcObject;
   let revokers: Server[];
   beforeAll(async () => {
     revokers = await Promise.all(
@@ -48,18 +49,20 @@ describe('grpc proxy', () => {
         return server;
       })
     );
-
-    proxy = await createGrpcProxy({
-      etcdHosts: hosts,
-      target: pkgDef.helloworld,
-      parseKV,
-    });
   });
 
   afterAll(() => {
     revokers.map(item => item.forceShutdown());
   });
 
+  let proxy: GrpcObject;
+  beforeAll(async () => {
+    proxy = await createGrpcProxy({
+      etcdHosts: hosts,
+      target: pkgDef.helloworld,
+      parseKV,
+    });
+  });
   it('round=robin', async () => {
     const first = proxy.Greeter.getChannel().getTarget();
 

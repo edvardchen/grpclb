@@ -24,7 +24,7 @@ export default async function register({
   ttl = 10, // 10 seconds,
   etcdKV: { key: _key, value: _value = '' },
   etcdHosts = process.env.ETCD_HOSTS,
-}: RegisterOptions): Promise<() => void> {
+}: RegisterOptions): Promise<() => Promise<void>> {
   if (!etcdHosts || !etcdHosts.length) {
     throw new Error('etcdHosts empty');
   }

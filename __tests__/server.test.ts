@@ -5,6 +5,7 @@ import { register } from '../src';
 import { createEtcdClient, hosts, parseKV } from './helper/etcd';
 import sleep from './helper/sleep';
 import { EtcdResolver } from '../src/client/resolver';
+import { Server } from 'grpc';
 
 describe('grpclb', () => {
   let client: Etcd3;
@@ -32,12 +33,25 @@ describe('grpclb', () => {
     expect(result2).not.toBeNull();
 
     // revoke
-    unregister();
-
-    await sleep(1000);
+    await unregister();
 
     const result3 = await client.get(key);
     expect(result3).toBeNull();
+  });
+
+  it('unregister by server,tryShutdown', async () => {
+    const key = 'hello_work:127.0.0.1:30004';
+
+    const server = new Server();
+    await register({
+      server,
+      etcdKV: { key },
+      ttl: 1,
+      etcdHosts: hosts,
+    });
+    await new Promise(resolve => {
+      server.tryShutdown(resolve);
+    });
   });
 
   describe('lb', () => {
@@ -45,6 +59,10 @@ describe('grpclb', () => {
 
     beforeEach(async () => {
       resolver = new EtcdResolver(hosts, parseKV, 'test-services:');
+    });
+
+    afterEach(async () => {
+      await resolver.destroy();
     });
 
     it('resolver', async () => {

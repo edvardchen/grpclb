@@ -73,6 +73,9 @@ export class EtcdResolver {
           );
         }
       )
+      .on('error', error => {
+        debug(error);
+      })
       .on('disconnected', error => {
         debug(`etcd disconnected due to ${error.message}`, error);
       });
@@ -150,19 +153,8 @@ export class EtcdResolver {
 
     return result;
   }
+
+  async destroy(): Promise<void> {
+    return this.watcher && this.watcher.cancel();
+  }
 }
-
-// const schema = 'etcd';
-
-// class builder {
-//   build(target: Target, cc: unknown, option: unknown): Resolver {
-//     const { endpoint } = target;
-
-//     const resolver = new Resolver();
-//     return resolver;
-//   }
-
-//   schema(): string {
-//     return schema;
-//   }
-// }
