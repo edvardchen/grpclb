@@ -1,4 +1,4 @@
 import register from './register';
-import createGrpcProxy from './client';
+export * from './client';
 
-export { register, createGrpcProxy };
+export { register };

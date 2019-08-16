@@ -2,7 +2,7 @@
 import startGreeterServer from './fixtures/helloworld/greeter_server';
 // @ts-ignore
 import { GreeterClient } from './fixtures/helloworld/static_codegen/helloworld_grpc_pb';
-import createClientPool from '../src/client/createClientPool';
+import { createClientPool } from '../src/client';
 import { hosts, parseKV } from './helper/etcd';
 import {
   HelloRequest,
