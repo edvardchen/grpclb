@@ -1,6 +1,15 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
+/**
+ * @type {import('typescript').CompilerOptions}
+ */
+const tsConfig = {
+  noImplicitAny: false,
+  allowJs: true,
+  noUnusedLocals: false,
+};
+
 module.exports = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -58,7 +67,11 @@ module.exports = {
   globalTeardown: '<rootDir>/__tests__/testTeardown.ts',
 
   // A set of global variables that need to be available in all test environments
-  // globals: {},
+  globals: {
+    'ts-jest': {
+      tsConfig,
+    },
+  },
 
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
@@ -175,7 +188,7 @@ module.exports = {
   // verbose: null,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
-  // watchPathIgnorePatterns: [],
+  watchPathIgnorePatterns: ['fixtures'],
 
   // Whether to use watchman for file crawling
   // watchman: true,
