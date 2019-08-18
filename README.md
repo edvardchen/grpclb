@@ -5,8 +5,10 @@ grpc load balancer integrated with [etcd] for Node.js
 ## Install
 
 ```bash
-npm i grpclb
+npm i grpclb grpc
 ```
+
+> `grpclb` lists `grpc` as its **`peerDependency`** not `dependency` because [here](#Notes)
 
 ## Server side
 
@@ -82,5 +84,32 @@ const servant = pool.get();
 // you can just call the service method to send request
 servant.sayHello(new HelloRequest(), (error, response) => {});
 ```
+
+## Notes
+
+### `grpc` as peerDependency, not dependency
+
+Image you have two copies of `grpc`, it would look like:
+
+```bash
+├── node_modules
+│   ├── grpclb
+│   │   └── node_modules
+│   │       └── grpc
+│   └── grpc
+└── src
+    └── static_codegen
+        ├── helloworld_grpc_pb.js
+        ├── helloworld_pb.d.ts
+        └── helloworld_pb.js
+```
+
+- `require('grpc')` in src directory, no matter dynamic generated gRPC javascript code or static generated, would resolve to `node_modules/grpc`
+- `require('grpc')` in `grpclb` package would resolve to `node_modules/grpclb/node_modules/grpc`
+
+Then initialization would throw error
+`TypeError: Channel's second argument must be a ChannelCredentials`. See details for [this issue](https://github.com/grpc/grpc/issues/10786)
+
+List `grpc` as peerDependency can avoid this situation.
 
 [etcd]: https://github.com/etcd-io/etcd

@@ -24,26 +24,6 @@
     "url": "https://github.com/edvardchen/grpclb/issues"
   },
   "homepage": "https://github.com/edvardchen/grpclb#readme",
-  "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^7.5.0",
-    "@grpc/proto-loader": "^0.5.1",
-    "@types/debug": "^4.1.4",
-    "@types/jest": "^24.0.16",
-    "@types/lodash": "^4.14.136",
-    "@types/node": "^12.0.8",
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
-    "@typescript-eslint/parser": "^1.9.0",
-    "eslint": "^5.9.0",
-    "eslint-config-prettier": "^4.3.0",
-    "google-protobuf": "^3.9.0",
-    "husky": "^1.2.0",
-    "jest": "^24.8.0",
-    "lint-staged": "^8.1.0",
-    "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.5.1"
-  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
@@ -60,10 +40,33 @@
       "git add"
     ]
   },
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^7.5.0",
+    "@grpc/proto-loader": "^0.5.1",
+    "@types/debug": "^4.1.4",
+    "@types/jest": "^24.0.16",
+    "@types/lodash": "^4.14.136",
+    "@types/node": "^12.0.8",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^4.3.0",
+    "google-protobuf": "^3.9.0",
+    "grpc": "^1.22.2",
+    "husky": "^1.2.0",
+    "jest": "^24.8.0",
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1"
+  },
+  "peerDependencies": {
+    "grpc": "^1.22.2"
+  },
   "dependencies": {
     "debug": "^4.1.1",
     "etcd3": "^0.2.13",
-    "grpc": "^1.22.2",
     "lodash": "^4.17.15"
   }
 }
