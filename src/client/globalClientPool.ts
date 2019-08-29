@@ -22,6 +22,10 @@ export async function destroyGlobalPool(): Promise<void> {
   return resolver && resolver.destroy();
 }
 
+export function globalResolver(): EtcdResolver | undefined {
+  return resolver;
+}
+
 export async function initGlobalResolver({
   etcdHosts,
   parseKV,
