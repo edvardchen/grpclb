@@ -1,3 +1,4 @@
+/* eslint-disable no-regex-spaces */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { exec } from 'child_process';
 import fs from 'fs';
@@ -30,7 +31,7 @@ describe('duplicate grpc', () => {
     } = require('./fixtures/helloworld/static_codegen/helloworld_grpc_pb');
     expect(() => {
       new GreeterClient('localhost:1234', credentials.createInsecure());
-    }).toThrow("Channel's second argument must be a ChannelCredentials");
+    }).toThrow(/Channel's second argument.* must be a ChannelCredentials/);
     jest.unmock('grpc');
   });
 });
