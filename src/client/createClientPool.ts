@@ -6,7 +6,7 @@ import {
   getClientInstance,
 } from './globalClientPool';
 
-interface Pool<T extends GrpcClient> {
+export interface Pool<T extends GrpcClient> {
   get(): T;
 }
 
