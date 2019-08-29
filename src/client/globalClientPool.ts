@@ -22,13 +22,10 @@ export async function destroyGlobalPool(): Promise<void> {
   return resolver && resolver.destroy();
 }
 
-/**
- * init global resolver
- */
 export async function initGlobalResolver({
   etcdHosts,
   parseKV,
-}: InitOptions): Promise<EtcdResolver> {
+}: InitOptions): Promise<void> {
   if (!resolver) {
     const { ETCD_NAMESPACE, ETCD_HOSTS } = process.env;
 
@@ -42,7 +39,6 @@ export async function initGlobalResolver({
 
     await resolver.watch();
   }
-  return resolver;
 }
 
 // 是否需要 service client pool，先实现吧
