@@ -2,4 +2,6 @@ import createGrpcProxy from './createGrpcProxy';
 
 import createClientPool from './createClientPool';
 
-export { createGrpcProxy, createClientPool };
+import { initGlobalResolver } from './globalClientPool';
+
+export { createGrpcProxy, createClientPool, initGlobalResolver };
