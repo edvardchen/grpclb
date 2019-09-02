@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/edvardchen/grpclb/compare/v1.3.1-1...v1.3.1) (2019-09-02)
+
+
+### Bug Fixes
+
+* **resolver:** fix trim prefix bug ([c3b895c](https://github.com/edvardchen/grpclb/commit/c3b895c))
+
+
+
 ### [1.3.1-1](https://github.com/edvardchen/grpclb/compare/v1.3.1-0...v1.3.1-1) (2019-08-29)
 
 
