@@ -113,8 +113,11 @@ export class EtcdResolver {
       );
   }
 
-  parseEtcdKV(_key: string, value?: string): ServantNode | undefined {
-    const key = _.trimStart(_key, this.prefix);
+  parseEtcdKV(originalKey: string, value?: string): ServantNode | undefined {
+    let key = originalKey;
+    if (this.prefix) {
+      key = originalKey.replace(this.prefix, '');
+    }
     return this.parse(key, value);
   }
 
