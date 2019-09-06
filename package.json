@@ -59,7 +59,8 @@
     "lint-staged": "^8.1.0",
     "prettier": "^1.18.2",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "why-is-node-running": "^2.1.0"
   },
   "peerDependencies": {
     "grpc": "^1.22.2"

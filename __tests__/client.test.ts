@@ -7,6 +7,7 @@ import { register, createGrpcProxy } from '../src';
 import { hosts, parseKV } from './helper/etcd';
 import sleep from './helper/sleep';
 import { destroyGlobalPool } from '../src/client/globalClientPool';
+// import log from 'why-is-node-running';
 
 describe('client dynamic - grpc proxy', () => {
   let pkgDef: GrpcObject;
@@ -51,8 +52,14 @@ describe('client dynamic - grpc proxy', () => {
     );
   });
 
-  afterAll(() => {
-    revokers.map(item => item.forceShutdown());
+  afterAll(async () => {
+    return Promise.all(
+      revokers.map(item => {
+        return new Promise(resolve => {
+          item.tryShutdown(resolve);
+        });
+      })
+    );
   });
 
   let proxy: GrpcObject;
@@ -75,7 +82,7 @@ describe('client dynamic - grpc proxy', () => {
 
     // revoke
     const revoker = revokers.shift();
-    revoker && revoker.forceShutdown();
+    revoker && (await revoker.forceShutdown());
     await sleep(200);
     const fourth = proxy.Greeter.getChannel().getTarget();
     const fifth = proxy.Greeter.getChannel().getTarget();

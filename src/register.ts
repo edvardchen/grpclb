@@ -52,21 +52,23 @@ export default async function register({
 
   await grantLease();
 
-  function revoke(): Promise<void> {
-    return lease.revoke();
+  async function revoke(): Promise<void> {
+    await lease.revoke();
   }
 
   if (server) {
     const old = server.tryShutdown;
     server.tryShutdown = callback => {
-      revoke();
-      old.call(server, callback);
+      revoke().finally(() => {
+        old.call(server, callback);
+      });
     };
 
     const original = server.forceShutdown;
     server.forceShutdown = () => {
-      revoke();
-      original.call(server);
+      return revoke().finally(() => {
+        original.call(server);
+      });
     };
   }
 

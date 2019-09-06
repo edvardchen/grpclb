@@ -44,7 +44,13 @@ describe('client static - grpc client pool', () => {
     });
 
     afterAll(async () => {
-      revokers.map(item => item.forceShutdown());
+      await Promise.all(
+        revokers.map(item => {
+          return new Promise(resolve => {
+            item.tryShutdown(resolve);
+          });
+        })
+      );
       await destroyGlobalPool();
     });
 
@@ -73,7 +79,7 @@ describe('client static - grpc client pool', () => {
 
       // revoke
       const revoker = revokers.shift();
-      revoker && revoker.forceShutdown();
+      revoker && (await revoker.forceShutdown());
       await sleep(200);
       const fourth = pool
         .get()
