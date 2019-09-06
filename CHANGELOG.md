@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/edvardchen/grpclb/compare/v1.3.1...v1.3.2) (2019-09-06)
+
+
+### Bug Fixes
+
+* revoke leave correctly ([e113c46](https://github.com/edvardchen/grpclb/commit/e113c46))
+
+
+
 ### [1.3.1](https://github.com/edvardchen/grpclb/compare/v1.3.1-1...v1.3.1) (2019-09-02)
 
 
