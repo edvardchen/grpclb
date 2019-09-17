@@ -33,7 +33,10 @@ export class EtcdResolver {
       throw new Error(`not etcd hosts found`);
     }
 
-    hosts = typeof hosts === 'string' ? hosts.split(',') : hosts;
+    hosts =
+      typeof hosts === 'string'
+        ? hosts.split(',').map(item => item.trim())
+        : hosts;
     //、初始化 client
     this.client = new Etcd3({ hosts });
   }

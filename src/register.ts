@@ -30,7 +30,9 @@ export default async function register({
   }
 
   const hosts =
-    typeof etcdHosts === 'string' ? etcdHosts.split(',') : etcdHosts;
+    typeof etcdHosts === 'string'
+      ? etcdHosts.split(',').map(item => item.trim())
+      : etcdHosts;
 
   const client = new Etcd3({ hosts });
 
