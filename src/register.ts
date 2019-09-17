@@ -46,7 +46,10 @@ export default async function register({
     lease.on('lost', err => {
       debug('We lost our lease as a result of this error:', err);
       debug('Trying to re-grant it...');
-      !lease.revoked() && grantLease();
+      grantLease().catch(e => {
+        // eslint-disable-next-line no-console
+        console.error(`failed to put etcd key ${key}`, e.message);
+      });
     });
 
     await lease.put(key).value(value);
